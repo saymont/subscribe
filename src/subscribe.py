@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt  # import the client1
 import time
 
+from .services import mongo
+
 from .env import BROKER_ADRESS
 
 
@@ -9,6 +11,9 @@ def on_message(client, userdata, message):
     print("message topic=", message.topic)
     print("message qos=", message.qos)
     print("message retain flag=", message.retain)
+
+    mongo.test.mqttpy.insert_one({message.topic: str(message.payload.decode("utf-8"))})
+
 
 
 broker_address = BROKER_ADRESS
@@ -19,10 +24,16 @@ client = mqtt.Client("P1", True, None, mqtt.MQTTv31)
 client.on_message = on_message  # attach function to callback
 print("connecting to broker")
 client.connect(broker_address)  # connect to broker
+
 client.loop_start()  # start the loop
-print("Subscribing to topic", "house/bulbs/bulb1")
-client.subscribe("house/bulbs/bulb1")
-print("Publishing message to topic", "house/bulbs/bulb1")
-client.publish("house/bulbs/bulb1", "OFF")
+print("Subscribing to topic", "COVID-19/mortes/BR")
+client.subscribe("COVID-19/mortes/BR")
+
+print("Publishing message to topic", "COVID-19/mortes/BR")
+client.publish("COVID-19/mortes/BR", "1")
+
+print("Publishing message to topic", "COVID-19/mortes/BR")
+client.publish("COVID-19/mortes/BR", "2")
+
 time.sleep(4)  # wait
 client.loop_stop()  # stop the loop
