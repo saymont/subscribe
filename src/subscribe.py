@@ -5,7 +5,7 @@ import json
 
 from .services import mongo
 
-from .env import BROKER_ADRESS
+from .env import BROKER_ADDRESS
 
 
 def on_connect(client, userdata, flags, rc):
@@ -20,8 +20,7 @@ def on_message(client, userdata, message):
     print(data)
     mongo.test.mqttpy.insert_one(data)
 
-
-broker_address = BROKER_ADRESS
+broker_address = BROKER_ADDRESS
 
 print("creating new instance")
 client = mqtt.Client("P1", True, None, mqtt.MQTTv31)
