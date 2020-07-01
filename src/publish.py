@@ -9,4 +9,4 @@ client = mqtt.Client("P1")  # create new instance
 
 client.connect(broker_address)  # connect to broker
 
-client.publish("house/main-light", "OFF")  # publish
+client.publish("trabalhoSD", "Test")  # publish
